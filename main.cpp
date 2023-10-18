@@ -56,7 +56,9 @@ int main ()
         Read first char --> determine loop amt
         Loop through lines
             Create row from line
+            Zero fill rest of row
             Add row to matrix
+        Zero fille rest of columns
     */
 
     /* Note: This assumes the file is 12 lines long with a number on each line and only that */
