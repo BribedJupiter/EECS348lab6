@@ -9,20 +9,20 @@ using std::cin;
 using std::endl;
 using std::string;
 
-int readFile(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& size);
+int readFile(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& size); // Read a file and create a list of matrices
 
-void printMatrix(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& size);
+void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int size); // Print a matrix
 
-void addMatrix(int* refArrayOne, int* refArrayTwo);
+void addMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Add matrix A and matrix B
 
-void multMatrix(int* refArrayOne, int* refArrayTwo);
+void multMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Multiply matrix A and matrix B
 
-void subtractMatrix(int* refArrayOne, int* refArrayTwo);
+void subtractMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Subtract matrix B from matrix A
 
 int main ()
 {   
     int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE]; // We will format this as follows:
-    // The first index is the matrix we are working on, the second is the row, and the third is the column.
+    // The first index is the matrix identifier, the second is the row, and the third is the column.
     int numMatrices, size; // Store the number of matrices and their size
 
     // Read in the matrices from a file
@@ -32,10 +32,18 @@ int main ()
         return -1;
     }
 
-    cout << "Jack Bauer" << endl << "Lab #6: Matrix Multiplication";
+    cout << "Jack Bauer" << endl << "Lab #6: Matrix Multiplication" << endl;
 
     // Display the matrices
-    printMatrix(matrices, numMatrices, size);
+    cout << "Matrix A" << endl;
+    printMatrix(matrices[0], size);
+
+    cout << "Matrix B" << endl;
+    printMatrix(matrices[1], size);
+
+    addMatrix(matrices[0], matrices[1], size);
+    multMatrix(matrices[0], matrices[1], size);
+    subtractMatrix(matrices[0], matrices[1], size);
      
     return 0;
 }
@@ -93,36 +101,70 @@ int readFile(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& 
     return numMatrices;
 }
 
-void printMatrix(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& size) // Display the matrices. For the first 3, we will use ABC, for the rest it will be numbers.
+void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int size) // Print a matrix
 {
-    string letters = "ABC";
-
-    for (int k = 0; k < numMatrices; k++)
+    for (int i = 0; i < size; i++) // Print the matrix
     {
-        if (k < 3) cout << "Matrix " << letters[k] << ":" << endl; else cout << "Matrix " << k + 1 << ":" << endl;
-        for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
         {
-            for (int j = 0; j < size; j++)
-            {
-                cout << matrices[k][i][j] << " ";
-            }
-            cout << endl;
+            cout << matrix[i][j] << " ";
         }
         cout << endl;
     }
+    cout << endl;
 }
 
-void addMatrix(int* refArrayOne, int* refArrayTwo)
+void addMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size) // Add matrix A and matrix B
 {
+    int resultMatrix[MAX_SIZE][MAX_SIZE];
+    cout << "Matrix Sum (A + B)" << endl;
 
-}
-
-void multMatrix(int* refArrayOne, int* refArrayTwo)
-{
-
-}
-
-void subtractMatrix(int* refArrayOne, int* refArrayTwo)
-{
+    for (int i = 0; i < size; i++) 
+    {
+        for (int j = 0; j < size; j++)
+        {
+            resultMatrix[i][j] = matrixA[i][j] + matrixB[i][j];
+        }
+    }
     
+    printMatrix(resultMatrix, size);
+}
+
+void multMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size) // Multiply matrix A and matrix B
+{
+    int resultMatrix[MAX_SIZE][MAX_SIZE];
+    cout << "Matrix Product (A * B)" << endl;
+
+    for (int i = 0; i < size; i++) 
+    {
+        for (int j = 0; j < size; j++)
+        {
+            // sum of corresponding entries from row A and col B
+            int entry = 0;
+            for (int k = 0; k < size; k++)
+            {
+                entry += matrixA[i][k] * matrixB[k][j];
+            }
+
+            resultMatrix[i][j] = entry;
+        }
+    }
+
+    printMatrix(resultMatrix, size);
+}
+
+void subtractMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size) // Subtract matrix B from matrix A
+{
+    int resultMatrix[MAX_SIZE][MAX_SIZE];
+    cout << "Matrix Difference (A - B)" << endl;
+
+    for (int i = 0; i < size; i++) 
+    {
+        for (int j = 0; j < size; j++)
+        {
+            resultMatrix[i][j] = matrixA[i][j] - matrixB[i][j];
+        }
+    }
+    
+    printMatrix(resultMatrix, size);
 }
