@@ -15,7 +15,7 @@ void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int size); // Print a matrix
 
 void addMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Add matrix A and matrix B
 
-void multMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Multiply matrix A and matrix B
+void multMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Multiply matrix A to matrix B
 
 void subtractMatrix(int matrixA[MAX_SIZE][MAX_SIZE], int matrixB[MAX_SIZE][MAX_SIZE], int size); // Subtract matrix B from matrix A
 
@@ -23,16 +23,17 @@ int main ()
 {   
     int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE]; // We will format this as follows:
     // The first index is the matrix identifier, the second is the row, and the third is the column.
+    // We will store the matrices as 2D arrays within this larger list of arrays. 
     int numMatrices, size; // Store the number of matrices and their size
 
     // Read in the matrices from a file
     numMatrices = readFile(matrices, numMatrices, size);
-    if (numMatrices == -1)
+    if (numMatrices == -1) // If there is an issue, end the program
     {
         return -1;
     }
 
-    cout << "Jack Bauer" << endl << "Lab #6: Matrix Multiplication" << endl;
+    cout << "Jack Bauer" << endl << "Lab #6: Matrix Multiplication" << endl << endl;
 
     // Display the matrices
     cout << "Matrix A" << endl;
@@ -41,9 +42,9 @@ int main ()
     cout << "Matrix B" << endl;
     printMatrix(matrices[1], size);
 
-    addMatrix(matrices[0], matrices[1], size);
-    multMatrix(matrices[0], matrices[1], size);
-    subtractMatrix(matrices[0], matrices[1], size);
+    addMatrix(matrices[0], matrices[1], size); // Add matrices 0 and 1
+    multMatrix(matrices[0], matrices[1], size); // Multiply matrix 0 and 1
+    subtractMatrix(matrices[0], matrices[1], size); // Subtract matric 1 from 0
      
     return 0;
 }
@@ -75,7 +76,7 @@ int readFile(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& 
     }
 
     numMatrices = 0; // Begin reading in our matrices
-    while (numMatrices < MAX_SIZE) // Make sure we don't go beyond our limit. Each iteration will complete a matrix
+    while (numMatrices < MAX_SIZE) // Make sure we don't go beyond our limit. Each iteration will complete a matrix and add it to our master list
     {
         if (inputFile.eof()) break; // If we reach the end of the file, break the loop
         for (int i = 0; i < size; i++) // Build our matrix
@@ -91,7 +92,7 @@ int readFile(int matrices[MAX_SIZE][MAX_SIZE][MAX_SIZE], int& numMatrices, int& 
             }
         }
 
-        numMatrices++; 
+        numMatrices++; // Move on to the next matrix in the file
     }
 
 
@@ -107,7 +108,7 @@ void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int size) // Print a matrix
     {
         for (int j = 0; j < size; j++)
         {
-            cout << matrix[i][j] << " ";
+            cout << matrix[i][j] << " "; // Print each value with space in between it for better apperance
         }
         cout << endl;
     }
